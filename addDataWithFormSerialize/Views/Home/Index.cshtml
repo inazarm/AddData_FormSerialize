@@ -9,23 +9,64 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
+    <form id="myform" action="/Home/SaveData/" method="post">
+        <table class="table-bordered">
+            <tr>
+                <td>Name</td>
+                <td><input type="text" name="EmpName" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input type="text" name="Email" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td>Phone</td>
+                <td><input type="text" name="Phone" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td>Experience</td>
+                <td><input type="text" name="Experience" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="button" id="save" value="Save" class="btn btn-primary" /></td>
+            </tr>
+        </table>
+    </form>
 </div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email Address</th>
+            <th>Phone</th>
+            <th>Experience</th>
+        </tr>
+    </thead>
+    <tbody id="tbody">
+    </tbody>
+</table>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $('#save').click(function () {
+        var form = $("#myform");
+        var url = form.attr("action");
+        var formData = form.serialize();
+        $.post(url, formData, function (data) {
+            var result = "";
+            $.each(data, function (index, row) {
+                result += '<tr>';
+                result += '<td>' + row.EmpId + '</td>';
+                result += '<td>' + row.EmpName + '</td>';
+                result += '<td>' + row.Email + '</td>';
+                result += '<td>' + row.Phone + '</td>';
+                result += '<td>' + row.Experience + '</td>';
+                result += '</tr>';
+            });
+            console.log(data);
+            $("#tbody").append(result);
+            console.log("end fun");
+        });
+    })
+</script>
